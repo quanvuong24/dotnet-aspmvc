@@ -41,4 +41,15 @@ steps:
   inputs:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
     ArtifactName: 'aspnetmvc-v$(Release.version)-$(Build.BuildId)'
-    publishLocation: 'Container'
+
+- task: BeanstalkCreateApplicationVersion@1
+  inputs:
+    awsCredentials: 'aws_quanvuong'
+    regionName: 'ap-southeast-1'
+    applicationName: 'aspnetapp'
+    applicationType: 'aspnet'
+    webDeploymentArchive: '$(build.artifactstagingdirectory)\MVC5App.zip'
+    versionLabel: 'aspnetmvc-v$(Release.version)-$(Build.BuildId)'
+    description: 'Created aspnetmvc-v$(Release.version)-$(Build.BuildId)'
+    logRequest: true
+    logResponse: true
