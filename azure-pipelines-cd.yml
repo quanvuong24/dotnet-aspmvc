@@ -42,4 +42,3 @@ steps:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
     ArtifactName: 'aspnetmvc-v$(Release.version)-$(Build.BuildId)'
     publishLocation: 'Container'
-  condition: succeededOrFailed()
