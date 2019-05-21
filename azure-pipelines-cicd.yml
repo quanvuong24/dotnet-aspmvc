@@ -49,12 +49,10 @@ stages:
     
 - stage: DEV
   dependsOn: Build
-  condition: succeededOrFailed()
+  condition: succeeded()
   jobs:
     # track deployments on the environment
   - job: Deploy_DEV
-    pool:
-      vmImage: 'vs2017-win2016'
     steps:
     - task: BeanstalkDeployApplication@1
       displayName: 'Deploy to Elastic Beanstalk: DEV'
@@ -75,16 +73,14 @@ stages:
         IconUrl: 'https://avatars.slack-edge.com/2019-01-17/528389819366_e7a0672f0480b3e98d21_512.png'
         Message: 'Released *aspnetmvc-v$(Release.version)-$(Build.BuildId)* to *`DEV`* successfully!'
         Title: 'Release-aspnetmvc-v$(Release.version)-$(Build.BuildId) summary'
-        TitleLink: 'https://dev.azure.com/waynewong240289/test/_releaseProgress?_a=release-pipeline-progress&releaseId=$(Release.ReleaseId)'
+        TitleLink: 'https://dev.azure.com/waynewong240289/test/_build/results?buildId=$(Build.BuildId)'
 
 - stage: QA
   dependsOn: DEV
-  condition: succeededOrFailed()
+  condition: succeeded()
   jobs:
     # track deployments on the environment
   - job: Deploy_QA
-    pool:
-      vmImage: 'vs2017-win2016'
     steps:
     - task: BeanstalkDeployApplication@1
       displayName: 'Deploy to Elastic Beanstalk: QA'
@@ -105,4 +101,4 @@ stages:
         IconUrl: 'https://avatars.slack-edge.com/2019-01-17/528389819366_e7a0672f0480b3e98d21_512.png'
         Message: 'Released *aspnetmvc-v$(Release.version)-$(Build.BuildId)* to *`DEV`* successfully!'
         Title: 'Release-aspnetmvc-v$(Release.version)-$(Build.BuildId) summary'
-        TitleLink: 'https://dev.azure.com/waynewong240289/test/_releaseProgress?_a=release-pipeline-progress&releaseId=$(Release.ReleaseId)'
+        TitleLink: 'https://dev.azure.com/waynewong240289/test/_build/results?buildId=$(Build.BuildId)'
