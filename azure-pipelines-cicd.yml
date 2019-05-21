@@ -63,7 +63,7 @@ stages:
         applicationType: version
         versionLabel: 'aspnetmvc-v$(Release.version)-$(Build.BuildId)'
         description: 'Deployed aspnetmvc-v$(Release.version)-$(Build.BuildId)'
-    - task: kasunkodagoda.slack-notification.slack-notification-task.SlackNotification@5
+    - task: SlackNotification@5
       displayName: 'Post Slack Notification'
       inputs:
         SlackApiToken: '$(slack.token)'
