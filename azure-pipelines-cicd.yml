@@ -1,6 +1,7 @@
 name: $(BuildID)
 trigger:
 - cicd
+
 stages:
 - stage: Build
   jobs:
@@ -46,7 +47,9 @@ stages:
         logRequest: true
         logResponse: true
     
-- stage: Deploy
+- stage: DEV
+  dependsOn: Build
+  condition: succeededOrFailed()
   jobs:
     # track deployments on the environment
   - job: Deploy_DEV
@@ -60,6 +63,36 @@ stages:
         regionName: 'ap-southeast-1'
         applicationName: aspnetapp
         environmentName: 'aspnetmvc-dev'
+        applicationType: version
+        versionLabel: 'aspnetmvc-v$(Release.version)-$(Build.BuildId)'
+        description: 'Deployed aspnetmvc-v$(Release.version)-$(Build.BuildId)'
+    - task: SlackNotification@5
+      displayName: 'Post Slack Notification'
+      inputs:
+        SlackApiToken: '$(slack.token)'
+        MessageAuthor: 'Azure Release'
+        Channel: '#azure_devops'
+        IconUrl: 'https://avatars.slack-edge.com/2019-01-17/528389819366_e7a0672f0480b3e98d21_512.png'
+        Message: 'Released *aspnetmvc-v$(Release.version)-$(Build.BuildId)* to *`DEV`* successfully!'
+        Title: 'Release-aspnetmvc-v$(Release.version)-$(Build.BuildId) summary'
+        TitleLink: 'https://dev.azure.com/waynewong240289/test/_releaseProgress?_a=release-pipeline-progress&releaseId=$(Release.ReleaseId)'
+
+- stage: QA
+  dependsOn: DEV
+  condition: succeededOrFailed()
+  jobs:
+    # track deployments on the environment
+  - job: Deploy_QA
+    pool:
+      vmImage: 'vs2017-win2016'
+    steps:
+    - task: BeanstalkDeployApplication@1
+      displayName: 'Deploy to Elastic Beanstalk: QA'
+      inputs:
+        awsCredentials: 'aws_quanvuong'
+        regionName: 'ap-southeast-1'
+        applicationName: aspnetapp
+        environmentName: 'aspnetmvc-qa'
         applicationType: version
         versionLabel: 'aspnetmvc-v$(Release.version)-$(Build.BuildId)'
         description: 'Deployed aspnetmvc-v$(Release.version)-$(Build.BuildId)'
