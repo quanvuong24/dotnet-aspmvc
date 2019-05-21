@@ -1,9 +1,9 @@
+trigger:
+- master
 stages:
 - stage: Build
   jobs:
   - job: Build
-    trigger:
-    - master
     pool:
       vmImage: 'vs2017-win2016'
     variables:
