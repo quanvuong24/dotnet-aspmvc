@@ -51,7 +51,7 @@ stages:
     # track deployments on the environment
   - job: Deploy to DEV
     steps:
-    - task: AmazonWebServices.aws-vsts-tools.BeanstalkDeployApplication.BeanstalkDeployApplication@1
+    - task: BeanstalkDeployApplication@1
       displayName: 'Deploy to Elastic Beanstalk: DEV'
       inputs:
         awsCredentials: 'aws_quanvuong'
