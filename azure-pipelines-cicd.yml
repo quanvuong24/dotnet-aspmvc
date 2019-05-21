@@ -49,7 +49,7 @@ stages:
 - stage: Deploy
   jobs:
     # track deployments on the environment
-  - job: Deploy to DEV
+  - job: Deploy-DEV
     steps:
     - task: BeanstalkDeployApplication@1
       displayName: 'Deploy to Elastic Beanstalk: DEV'
