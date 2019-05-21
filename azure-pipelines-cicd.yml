@@ -48,7 +48,7 @@ stages:
 - stage: Deploy
   jobs:
     # track deployments on the environment
-  - job: Deployed aspnetmvc-v$(Release.version)-$(Build.BuildId) to DEV
+  - job: Deploy to DEV
     steps:
     - task: AmazonWebServices.aws-vsts-tools.BeanstalkDeployApplication.BeanstalkDeployApplication@1
       displayName: 'Deploy to Elastic Beanstalk: DEV'
