@@ -1,5 +1,5 @@
 trigger:
-- master
+- cicd
 stages:
 - stage: Build
   jobs:
