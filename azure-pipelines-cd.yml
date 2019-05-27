@@ -46,7 +46,7 @@ steps:
   inputs:
     awsCredentials: 'aws_quanvuong'
     regionName: 'ap-southeast-1'
-    applicationName: 'aspnetapp'
+    applicationName: 'aspnetmvc'
     applicationType: 'aspnet'
     webDeploymentArchive: '$(build.artifactstagingdirectory)\MVC5App.zip'
     versionLabel: 'aspnetmvc-v$(Release.version)-$(Build.BuildId)'
